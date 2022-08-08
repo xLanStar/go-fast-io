@@ -12,7 +12,7 @@ import (
 // SECTION_TYPE:FileReader
 type FileReader struct {
 	File   *os.File
-	reader *bufio.Reader
+	Reader *bufio.Reader
 	buf_2  []byte
 	buf_4  []byte
 }
@@ -31,24 +31,24 @@ func (FileReader *FileReader) OpenFile(name string, flat int, perm fs.FileMode) 
 		return err
 	}
 
-	FileReader.reader = bufio.NewReader(FileReader.File)
+	FileReader.Reader = bufio.NewReader(FileReader.File)
 	return err
 }
 
 func (FileReader *FileReader) Available() bool {
-	_, err := FileReader.reader.Peek(1)
+	_, err := FileReader.Reader.Peek(1)
 	return err == nil
 }
 
 // 1 bytes 8 bits
 func (FileReader *FileReader) Read() byte {
-	data, _ := FileReader.reader.ReadByte()
+	data, _ := FileReader.Reader.ReadByte()
 
 	return data
 }
 
 func (FileReader *FileReader) ReadUint8() uint8 {
-	data, _ := FileReader.reader.ReadByte()
+	data, _ := FileReader.Reader.ReadByte()
 
 	return data
 }
@@ -56,19 +56,19 @@ func (FileReader *FileReader) ReadUint8() uint8 {
 // 2 bytes 16 bits
 func (FileReader *FileReader) ReadUint16() uint16 {
 
-	FileReader.reader.Read(FileReader.buf_2)
+	FileReader.Reader.Read(FileReader.buf_2)
 
 	return uint16(FileReader.buf_2[0])<<8 + uint16(FileReader.buf_2[1])
 }
 
 func (FileReader *FileReader) ReadUint16Array() []uint16 {
-	FileReader.reader.Read(FileReader.buf_2)
+	FileReader.Reader.Read(FileReader.buf_2)
 
 	size := uint16(FileReader.buf_2[0])<<8 + uint16(FileReader.buf_2[1])
 
 	buf := make([]byte, size*2)
 
-	FileReader.reader.Read(buf)
+	FileReader.Reader.Read(buf)
 
 	array := make([]uint16, size)
 
@@ -82,34 +82,34 @@ func (FileReader *FileReader) ReadUint16Array() []uint16 {
 // 4 bytes 32 bits
 func (FileReader *FileReader) ReadInt() int {
 
-	FileReader.reader.Read(FileReader.buf_4)
+	FileReader.Reader.Read(FileReader.buf_4)
 
 	return int(FileReader.buf_4[0])<<24 + int(FileReader.buf_4[1])<<16 + int(FileReader.buf_4[2])<<8 + int(FileReader.buf_4[3])
 }
 
 func (FileReader *FileReader) ReadUint32() uint32 {
 
-	FileReader.reader.Read(FileReader.buf_4)
+	FileReader.Reader.Read(FileReader.buf_4)
 
 	return uint32(FileReader.buf_4[0])<<24 + uint32(FileReader.buf_4[1])<<16 + uint32(FileReader.buf_4[2])<<8 + uint32(FileReader.buf_4[3])
 }
 
 // string
 func (FileReader *FileReader) ReadString() string {
-	data, _ := FileReader.reader.ReadBytes(0)
+	data, _ := FileReader.Reader.ReadBytes(0)
 
 	return string(data[:len(data)-1])
 }
 
 // array
 func (FileReader *FileReader) ReadIntArray() []int {
-	FileReader.reader.Read(FileReader.buf_2)
+	FileReader.Reader.Read(FileReader.buf_2)
 
 	size := uint16(FileReader.buf_2[0])<<8 + uint16(FileReader.buf_2[1])
 
 	buf := make([]byte, size*4)
 
-	FileReader.reader.Read(buf)
+	FileReader.Reader.Read(buf)
 
 	array := make([]int, size)
 
@@ -121,13 +121,13 @@ func (FileReader *FileReader) ReadIntArray() []int {
 }
 
 func (FileReader *FileReader) ReadUint32Array() []uint32 {
-	FileReader.reader.Read(FileReader.buf_2)
+	FileReader.Reader.Read(FileReader.buf_2)
 
 	size := uint16(FileReader.buf_2[0])<<8 + uint16(FileReader.buf_2[1])
 
 	buf := make([]byte, size*4)
 
-	FileReader.reader.Read(buf)
+	FileReader.Reader.Read(buf)
 
 	array := make([]uint32, size)
 
