@@ -20,7 +20,7 @@ type FileReader struct {
 func (FileReader *FileReader) Init() {
 	FileReader.buf_2 = make([]byte, 2)
 	FileReader.buf_4 = make([]byte, 4)
-	FileReader.buf_4 = make([]byte, 8)
+	FileReader.buf_8 = make([]byte, 8)
 }
 
 func (FileReader *FileReader) OpenFile(name string, flat int, perm fs.FileMode) error {
