@@ -234,6 +234,12 @@ func (FileWriter *FileWriter) WriteUint32(data uint32) {
 	FileWriter.Buffer_p = FileWriter.Buffer_p[4:]
 }
 
+func (FileWriter *FileWriter) WriteUint64(data uint64) {
+	binary.BigEndian.PutUint64(FileWriter.Buffer_p, data)
+
+	FileWriter.Buffer_p = FileWriter.Buffer_p[8:]
+}
+
 // string
 func (FileWriter *FileWriter) WriteString(data string) {
 	tmp := append(FileWriter.Buffer_p[0:0], data...)
