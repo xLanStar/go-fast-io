@@ -37,7 +37,8 @@ func (FileReader *FileReader) OpenFile(name string, flat int, perm fs.FileMode) 
 }
 
 func (FileReader *FileReader) Available() bool {
-	return FileReader.Reader.Buffered() > 0
+	_, err := FileReader.Reader.Peek(1)
+	return err == nil
 }
 
 // 1 bytes 8 bits
